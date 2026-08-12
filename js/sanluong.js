@@ -3,25 +3,23 @@
 ========================================== */
 
 const employees = [
-    { id: "NV001", name: "Nguyễn Văn A" },
-    { id: "NV002", name: "Nguyễn Văn B" },
-    { id: "NV003", name: "Nguyễn Văn C" },
-    { id: "NV004", name: "Nguyễn Văn D" },
-    { id: "NV005", name: "Nguyễn Văn E" }
+  { id: "NV001", name: "Nguyễn Văn A" },
+  { id: "NV002", name: "Nguyễn Văn B" },
+  { id: "NV003", name: "Nguyễn Văn C" },
+  { id: "NV004", name: "Nguyễn Văn D" },
+  { id: "NV005", name: "Nguyễn Văn E" },
 ];
-
 
 /* ==========================================
    DANH SÁCH KHÁCH HÀNG
 ========================================== */
 
 const customers = [
-    { id: "KH001", name: "Khách hàng A" },
-    { id: "KH002", name: "Khách hàng B" },
-    { id: "KH003", name: "Khách hàng C" },
-    { id: "KH004", name: "Khách hàng D" }
+  { id: "KH001", name: "Khách hàng A" },
+  { id: "KH002", name: "Khách hàng B" },
+  { id: "KH003", name: "Khách hàng C" },
+  { id: "KH004", name: "Khách hàng D" },
 ];
-
 
 /* ==========================================
    DOM
@@ -34,57 +32,54 @@ const message = document.getElementById("message");
 const savedInfo = document.getElementById("savedInfo");
 const savedContent = document.getElementById("savedContent");
 
-
 /* ==========================================
    TẠO OPTION NHÂN VIÊN
 ========================================== */
 
 function createEmployeeOptions() {
-    let html = `
+  let html = `
         <option value="">-- Chọn nhân viên --</option>
     `;
 
-    employees.forEach((employee) => {
-        html += `
+  employees.forEach((employee) => {
+    html += `
             <option value="${employee.id}">
                 ${employee.id} - ${employee.name}
             </option>
         `;
-    });
+  });
 
-    return html;
+  return html;
 }
-
 
 /* ==========================================
    TẠO OPTION KHÁCH HÀNG
 ========================================== */
 
 function createCustomerOptions() {
-    let html = `
+  let html = `
         <option value="">-- Chọn khách hàng --</option>
     `;
 
-    customers.forEach((customer) => {
-        html += `
+  customers.forEach((customer) => {
+    html += `
             <option value="${customer.id}">
                 ${customer.name}
             </option>
         `;
-    });
+  });
 
-    return html;
+  return html;
 }
-
 
 /* ==========================================
    THÊM DÒNG NHÂN VIÊN
 ========================================== */
 
 function addEmployee() {
-    const row = document.createElement("tr");
+  const row = document.createElement("tr");
 
-    row.innerHTML = `
+  row.innerHTML = `
         <td>
             <select class="employee">
                 ${createEmployeeOptions()}
@@ -104,8 +99,6 @@ function addEmployee() {
                 placeholder="Ví dụ: 10*2+5"
             >
 
-            <div class="result">
-                Kết quả: <span>0</span>
             </div>
         </td>
 
@@ -149,173 +142,143 @@ function addEmployee() {
         </td>
     `;
 
-    employeeTable.appendChild(row);
+  employeeTable.appendChild(row);
 }
-
 
 /* ==========================================
    TÍNH SẢN LƯỢNG
 ========================================== */
 
 function calculate(input) {
-    const resultElement =
-        input.parentElement.querySelector(".result span");
+  const resultElement = input.parentElement.querySelector(".result span");
 
-    const formula = input.value.trim();
+  const formula = input.value.trim();
 
-    if (formula === "") {
-        resultElement.textContent = "0";
-        return;
+  if (formula === "") {
+    resultElement.textContent = "0";
+    return;
+  }
+
+  /* Chỉ cho phép số và phép tính */
+  if (!/^[0-9+\-*/().\s]+$/.test(formula)) {
+    resultElement.textContent = "Công thức không hợp lệ";
+    return;
+  }
+
+  try {
+    const result = Function(`"use strict"; return (${formula})`)();
+
+    if (Number.isFinite(result)) {
+      resultElement.textContent = result;
+    } else {
+      resultElement.textContent = "Công thức không hợp lệ";
     }
-
-    /* Chỉ cho phép số và phép tính */
-    if (!/^[0-9+\-*/().\s]+$/.test(formula)) {
-        resultElement.textContent = "Công thức không hợp lệ";
-        return;
-    }
-
-    try {
-        const result =
-            Function(`"use strict"; return (${formula})`)();
-
-        if (Number.isFinite(result)) {
-            resultElement.textContent = result;
-        } else {
-            resultElement.textContent = "Công thức không hợp lệ";
-        }
-    } catch (error) {
-        resultElement.textContent = "Công thức không hợp lệ";
-    }
+  } catch (error) {
+    resultElement.textContent = "Công thức không hợp lệ";
+  }
 }
-
 
 /* ==========================================
    XÓA DÒNG
 ========================================== */
 
 function deleteRow(button) {
-    if (employeeTable.rows.length <= 1) {
-        showMessage(
-            "Phải có ít nhất một nhân viên.",
-            "error"
-        );
-        return;
-    }
+  if (employeeTable.rows.length <= 1) {
+    showMessage("Phải có ít nhất một nhân viên.", "error");
+    return;
+  }
 
-    button.closest("tr").remove();
+  button.closest("tr").remove();
 }
-
 
 /* ==========================================
    LƯU PHIẾU
 ========================================== */
 
 function saveData() {
-    const rows =
-        document.querySelectorAll("#employeeTable tr");
+  const rows = document.querySelectorAll("#employeeTable tr");
 
-    const data = [];
-    let hasError = false;
+  const data = [];
+  let hasError = false;
 
-    rows.forEach((row) => {
-        const employee =
-            row.querySelector(".employee").value;
+  rows.forEach((row) => {
+    const employee = row.querySelector(".employee").value;
 
-        const customer =
-            row.querySelector(".customer").value;
+    const customer = row.querySelector(".customer").value;
 
-        const formula =
-            row.querySelector(".formula").value.trim();
+    const formula = row.querySelector(".formula").value.trim();
 
-        const result =
-            row.querySelector(".result span").textContent;
+    const result = row.querySelector(".result span").textContent;
 
-        const checkedUnits =
-            row.querySelectorAll(
-                ".unit-checkbox:checked"
-            );
+    const checkedUnits = row.querySelectorAll(".unit-checkbox:checked");
 
-        const units = [];
+    const units = [];
 
-        checkedUnits.forEach((checkbox) => {
-            units.push(checkbox.value);
-        });
-
-        if (employee === "") {
-            hasError = true;
-            return;
-        }
-
-        if (customer === "") {
-            hasError = true;
-            return;
-        }
-
-        if (
-            formula === "" ||
-            result === "Công thức không hợp lệ"
-        ) {
-            hasError = true;
-            return;
-        }
-
-        if (units.length === 0) {
-            hasError = true;
-            return;
-        }
-
-        data.push({
-            employee,
-            customer,
-            formula,
-            quantity: Number(result),
-            units
-        });
+    checkedUnits.forEach((checkbox) => {
+      units.push(checkbox.value);
     });
 
-    if (hasError) {
-        showMessage(
-            "Vui lòng nhập đầy đủ thông tin trước khi lưu.",
-            "error"
-        );
-        return;
+    if (employee === "") {
+      hasError = true;
+      return;
     }
 
-    const invoice = {
-        savedAt: new Date().toLocaleString("vi-VN"),
-        data
-    };
+    if (customer === "") {
+      hasError = true;
+      return;
+    }
 
-    localStorage.setItem(
-        "productionInvoice",
-        JSON.stringify(invoice)
-    );
+    if (formula === "" || result === "Công thức không hợp lệ") {
+      hasError = true;
+      return;
+    }
 
-    showMessage(
-        "✓ Phiếu đã được lưu thành công!",
-        "success"
-    );
+    if (units.length === 0) {
+      hasError = true;
+      return;
+    }
 
-    showSavedData(invoice);
+    data.push({
+      employee,
+      customer,
+      formula,
+      quantity: Number(result),
+      units,
+    });
+  });
+
+  if (hasError) {
+    showMessage("Vui lòng nhập đầy đủ thông tin trước khi lưu.", "error");
+    return;
+  }
+
+  const invoice = {
+    savedAt: new Date().toLocaleString("vi-VN"),
+    data,
+  };
+
+  localStorage.setItem("productionInvoice", JSON.stringify(invoice));
+
+  showMessage("✓ Phiếu đã được lưu thành công!", "success");
+
+  showSavedData(invoice);
 }
-
 
 /* ==========================================
    HIỂN THỊ THÔNG BÁO
 ========================================== */
 
 function showMessage(text, type) {
-    message.textContent = text;
-    message.className = "message " + type;
+  message.textContent = text;
+  message.className = "message " + type;
 }
-
 
 /* ==========================================
    HIỂN THỊ DỮ LIỆU ĐÃ LƯU
 ========================================== */
 
 function showSavedData(invoice) {
-    let html = `
+  let html = `
         <p>
             <strong>Thời gian lưu:</strong>
             ${invoice.savedAt}
@@ -329,8 +292,8 @@ function showSavedData(invoice) {
         <hr>
     `;
 
-    invoice.data.forEach((item, index) => {
-        html += `
+  invoice.data.forEach((item, index) => {
+    html += `
             <p>
                 <strong>
                     ${index + 1}. ${item.employee}
@@ -340,94 +303,66 @@ function showSavedData(invoice) {
                 (${item.units.join(", ")})
             </p>
         `;
-    });
+  });
 
-    savedContent.innerHTML = html;
-    savedInfo.hidden = false;
+  savedContent.innerHTML = html;
+  savedInfo.hidden = false;
 }
-
 
 /* ==========================================
    KHÔI PHỤC DỮ LIỆU KHI MỞ TRANG
 ========================================== */
 
 function loadSavedData() {
-    const saved =
-        localStorage.getItem("productionInvoice");
+  const saved = localStorage.getItem("productionInvoice");
 
-    if (!saved) {
-        addEmployee();
-        return;
-    }
+  if (!saved) {
+    addEmployee();
+    return;
+  }
 
-    try {
-        const invoice = JSON.parse(saved);
+  try {
+    const invoice = JSON.parse(saved);
 
-        showSavedData(invoice);
+    showSavedData(invoice);
 
-        invoice.data.forEach((item) => {
-            addEmployee();
+    invoice.data.forEach((item) => {
+      addEmployee();
 
-            const rows =
-                document.querySelectorAll(
-                    "#employeeTable tr"
-                );
+      const rows = document.querySelectorAll("#employeeTable tr");
 
-            const row =
-                rows[rows.length - 1];
+      const row = rows[rows.length - 1];
 
-            row.querySelector(".employee").value =
-                item.employee;
+      row.querySelector(".employee").value = item.employee;
 
-            row.querySelector(".customer").value =
-                item.customer;
+      row.querySelector(".customer").value = item.customer;
 
-            const formulaInput =
-                row.querySelector(".formula");
+      const formulaInput = row.querySelector(".formula");
 
-            formulaInput.value =
-                item.formula;
+      formulaInput.value = item.formula;
 
-            calculate(formulaInput);
+      calculate(formulaInput);
 
-            const checkboxes =
-                row.querySelectorAll(
-                    ".unit-checkbox"
-                );
+      const checkboxes = row.querySelectorAll(".unit-checkbox");
 
-            checkboxes.forEach((checkbox) => {
-                checkbox.checked =
-                    item.units.includes(
-                        checkbox.value
-                    );
-            });
-        });
+      checkboxes.forEach((checkbox) => {
+        checkbox.checked = item.units.includes(checkbox.value);
+      });
+    });
+  } catch (error) {
+    console.error("Không thể đọc dữ liệu đã lưu", error);
 
-    } catch (error) {
-        console.error(
-            "Không thể đọc dữ liệu đã lưu",
-            error
-        );
-
-        addEmployee();
-    }
+    addEmployee();
+  }
 }
-
 
 /* ==========================================
    SỰ KIỆN
 ========================================== */
 
-addEmployeeButton.addEventListener(
-    "click",
-    addEmployee
-);
+addEmployeeButton.addEventListener("click", addEmployee);
 
-saveButton.addEventListener(
-    "click",
-    saveData
-);
-
+saveButton.addEventListener("click", saveData);
 
 /*
    Event delegation:
@@ -435,32 +370,17 @@ saveButton.addEventListener(
    cho cả những dòng được tạo sau này.
 */
 
-employeeTable.addEventListener(
-    "input",
-    (event) => {
-        if (
-            event.target.classList.contains(
-                "formula"
-            )
-        ) {
-            calculate(event.target);
-        }
-    }
-);
+employeeTable.addEventListener("input", (event) => {
+  if (event.target.classList.contains("formula")) {
+    calculate(event.target);
+  }
+});
 
-employeeTable.addEventListener(
-    "click",
-    (event) => {
-        if (
-            event.target.classList.contains(
-                "btn-delete"
-            )
-        ) {
-            deleteRow(event.target);
-        }
-    }
-);
-
+employeeTable.addEventListener("click", (event) => {
+  if (event.target.classList.contains("btn-delete")) {
+    deleteRow(event.target);
+  }
+});
 
 /* ==========================================
    KHỞI ĐỘNG
