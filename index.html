@@ -7,251 +7,43 @@
 
     <title>T&B Logistics</title>
 
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-
-      body {
-        font-family: Arial, sans-serif;
-        background: #f5f5f5;
-      }
-
-      /* =========================
-           HEADER
-        ========================= */
-
-      .header {
-        width: 100%;
-        height: 80px;
-
-        background-color: #dff3df;
-
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        padding: 0 50px;
-
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-
-        position: sticky;
-        top: 0;
-        z-index: 1000;
-      }
-
-      /* =========================
-           LOGO
-        ========================= */
-
-      .logo {
-        font-size: 28px;
-        font-weight: bold;
-
-        color: #f28c28;
-
-        text-decoration: none;
-      }
-
-      .logo:hover {
-        color: #ff9f43;
-      }
-
-      /* =========================
-           MENU
-        ========================= */
-
-      .navigation {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-      }
-
-      .navigation a {
-        position: relative;
-
-        text-decoration: none;
-
-        color: #245c3a;
-
-        font-size: 16px;
-        font-weight: 500;
-
-        padding: 12px 18px;
-
-        border-radius: 8px;
-
-        transition:
-          color 0.3s ease,
-          background-color 0.3s ease,
-          box-shadow 0.3s ease,
-          transform 0.3s ease;
-      }
-
-      /* Hiệu ứng khi di chuột */
-
-      .navigation a:hover {
-        color: white;
-
-        background-color: #4caf50;
-
-        box-shadow:
-          0 0 10px rgba(76, 175, 80, 0.5),
-          0 0 20px rgba(76, 175, 80, 0.3);
-
-        transform: translateY(-2px);
-      }
-
-      /* =========================
-           LOGIN
-        ========================= */
-
-      .login {
-        margin-left: 15px;
-
-        padding: 11px 22px !important;
-
-        color: white !important;
-
-        background-color: #f28c28;
-
-        border-radius: 8px !important;
-
-        font-weight: bold !important;
-      }
-
-      .login:hover {
-        background-color: #ff9f43 !important;
-
-        box-shadow:
-          0 0 10px rgba(242, 140, 40, 0.5),
-          0 0 20px rgba(242, 140, 40, 0.3) !important;
-      }
-
-      /* =========================
-           NỘI DUNG TRANG CHỦ
-        ========================= */
-
-      .home-content {
-        min-height: calc(100vh - 80px);
-
-        display: flex;
-
-        flex-direction: column;
-
-        justify-content: center;
-
-        align-items: center;
-
-        text-align: center;
-
-        padding: 40px;
-      }
-
-      .home-content h1 {
-        font-size: 42px;
-
-        color: #245c3a;
-
-        margin-bottom: 15px;
-      }
-
-      .home-content p {
-        font-size: 18px;
-
-        color: #555;
-      }
-
-      /* =========================
-           RESPONSIVE
-        ========================= */
-
-      @media (max-width: 900px) {
-        .header {
-          padding: 0 20px;
-        }
-
-        .logo {
-          font-size: 22px;
-        }
-
-        .navigation {
-          gap: 3px;
-        }
-
-        .navigation a {
-          padding: 10px;
-          font-size: 14px;
-        }
-      }
-
-      @media (max-width: 650px) {
-        .header {
-          height: auto;
-
-          min-height: 70px;
-
-          flex-direction: column;
-
-          gap: 15px;
-
-          padding: 15px;
-        }
-
-        .navigation {
-          flex-wrap: wrap;
-
-          justify-content: center;
-        }
-      }
-    </style>
+    <link rel="stylesheet" href="css/style.css" />
   </head>
 
   <body>
-    <!-- =========================
-         HEADER
-    ========================= -->
+    <!-- HEADER -->
 
     <header class="header">
-      <!-- LOGO -->
-
-      <a href="index.html" class="logo"> T&B Logistics </a>
-
-      <!-- MENU -->
+      <div class="logo">T&B Logistics</div>
 
       <nav class="navigation">
-        <!-- About Us -->
+        <button data-page="about" class="nav-button">About Us</button>
 
-        <a href="#"> About Us </a>
+        <button data-page="home" class="nav-button">Home Page</button>
 
-        <!-- Home Page -->
+        <button data-page="career" class="nav-button">Career</button>
 
-        <a href="index.html"> Home Page </a>
+        <button data-page="contact" class="nav-button">Contact</button>
 
-        <!-- Career -->
-
-        <a href="#"> Career </a>
-
-        <!-- Contact -->
-
-        <a href="#"> Contact </a>
-
-        <!-- Login -->
-
-        <a href="login.html" class="login"> Log In </a>
+        <button data-page="login" class="login-button">Log In</button>
       </nav>
     </header>
 
-    <!-- =========================
-         TRANG CHỦ
-    ========================= -->
+    <!-- NỘI DUNG TRANG -->
 
-    <main class="home-content">
-      <h1>Welcome to T&B Logistics</h1>
-
-      <p>Giải pháp logistics chuyên nghiệp</p>
+    <main id="app">
+      <!-- JavaScript sẽ đưa nội dung vào đây -->
     </main>
+
+    <!-- JAVASCRIPT -->
+
+    <!-- JAVASCRIPT -->
+
+    <script src="js/pages/home.js"></script>
+    <script src="js/pages/about.js"></script>
+    <script src="js/pages/career.js"></script>
+    <script src="js/pages/contact.js"></script>
+    <script src="js/pages/login.js"></script>
+    <script src="js/app.js"></script>
   </body>
 </html>
