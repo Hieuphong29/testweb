@@ -96,9 +96,7 @@ function addEmployee() {
             <input
                 type="text"
                 class="formula"
-                placeholder="Ví dụ: 10*2+5"
-            >
-
+                placeholder="Ví dụ: 10*2+5">
             </div>
         </td>
 
