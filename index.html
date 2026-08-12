@@ -1,20 +1,821 @@
 <!doctype html>
 <html lang="vi">
   <head>
-    <title>Nhân câm mẹ mồm</title>
     <meta charset="UTF-8" />
-    <h1>Học làm web khó vãi lồn</h1>
-  </head>
-  <body>
-    <p>Nhìn code nhức đầu vcl</p>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <p>Nhưng thôi ráng học vậy</p>
-    <a href="https://www.pornhub.com">Dòng này dẫn đến Pornhub(nhớ bật vpn)</a>
-    <!--br là để cách dòng-->
-    <br />
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRhERfAbDkjdSefL-kQ0S3YmIi-mlREIlqsq4LAWgLkAw&s"
-      alt="Logo maserati"
-    />
+    <title>Phiếu ghi nhận sản lượng</title>
+
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        padding: 40px 20px;
+        font-family: Arial, sans-serif;
+        background: #f3f4f6;
+      }
+
+      .container {
+        width: 95%;
+        max-width: 1200px;
+        margin: 0 auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      .title {
+        text-align: center;
+        font-size: 28px;
+        font-weight: bold;
+        color: #1f2937;
+        margin-bottom: 30px;
+        text-transform: uppercase;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+
+      th,
+      td {
+        border: 1px solid #d1d5db;
+        padding: 12px;
+        text-align: center;
+      }
+
+      th {
+        background: #2563eb;
+        color: white;
+        font-weight: bold;
+      }
+
+      input,
+      select {
+        width: 100%;
+        padding: 9px 10px;
+        border: 1px solid #cbd5e1;
+        border-radius: 6px;
+        font-size: 14px;
+        outline: none;
+      }
+
+      input:focus,
+      select:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
+      }
+
+      .unit-group {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 12px;
+        white-space: nowrap;
+      }
+
+      .unit {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .unit input {
+        width: auto;
+      }
+
+      .result {
+        margin-top: 5px;
+        font-size: 13px;
+        color: #16a34a;
+        font-weight: bold;
+      }
+
+      .button-area {
+        margin-top: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .left-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn {
+        padding: 10px 18px;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-size: 15px;
+        cursor: pointer;
+      }
+
+      .btn-add {
+        background: #16a34a;
+      }
+
+      .btn-add:hover {
+        background: #15803d;
+      }
+
+      .btn-save {
+        background: #2563eb;
+        padding: 12px 25px;
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .btn-save:hover {
+        background: #1d4ed8;
+      }
+
+      .btn-delete {
+        padding: 7px 12px;
+        border: none;
+        border-radius: 5px;
+        background: #dc2626;
+        color: white;
+        cursor: pointer;
+      }
+
+      .btn-delete:hover {
+        background: #b91c1c;
+      }
+
+      .message {
+        display: none;
+        margin-top: 20px;
+        padding: 12px;
+        border-radius: 6px;
+        text-align: center;
+        font-weight: bold;
+      }
+
+      .success {
+        display: block;
+        background: #dcfce7;
+        color: #166534;
+      }
+
+      .error {
+        display: block;
+        background: #fee2e2;
+        color: #991b1b;
+      }
+
+      .saved-info {
+        margin-top: 25px;
+        padding: 15px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+      }
+
+      .saved-info h3 {
+        margin-top: 0;
+      }
+
+      @media (max-width: 900px) {
+        .container {
+          width: 100%;
+          padding: 15px;
+          overflow-x: auto;
+        }
+
+        table {
+          min-width: 900px;
+        }
+
+        .button-area {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 15px;
+        }
+
+        .left-buttons {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="title">Phiếu ghi nhận sản lượng</div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Mã số nhân viên</th>
+
+            <th>Khách hàng</th>
+
+            <th>Sản lượng</th>
+
+            <th>Đơn vị</th>
+
+            <th>Thao tác</th>
+          </tr>
+        </thead>
+
+        <tbody id="employeeTable"></tbody>
+      </table>
+
+      <!-- Khu vực nút -->
+
+      <div class="button-area">
+        <div class="left-buttons">
+          <button class="btn btn-add" onclick="addEmployee()">
+            + Thêm nhân viên
+          </button>
+        </div>
+
+        <button class="btn btn-save" onclick="saveData()">💾 Lưu phiếu</button>
+      </div>
+
+      <!-- Thông báo -->
+
+      <div id="message" class="message"></div>
+
+      <!-- Thông tin đã lưu -->
+
+      <div id="savedInfo" class="saved-info" style="display: none">
+        <h3>Thông tin phiếu đã lưu</h3>
+
+        <div id="savedContent"></div>
+      </div>
+    </div>
+
+    <script>
+      /*
+        ==========================================
+        DANH SÁCH NHÂN VIÊN
+        ==========================================
+        */
+
+      const employees = [
+        {
+          id: "NV001",
+          name: "Nguyễn Văn A",
+        },
+
+        {
+          id: "NV002",
+          name: "Nguyễn Văn B",
+        },
+
+        {
+          id: "NV003",
+          name: "Nguyễn Văn C",
+        },
+
+        {
+          id: "NV004",
+          name: "Nguyễn Văn D",
+        },
+
+        {
+          id: "NV005",
+          name: "Nguyễn Văn E",
+        },
+      ];
+
+      /*
+        ==========================================
+        DANH SÁCH KHÁCH HÀNG
+        ==========================================
+        */
+
+      const customers = [
+        {
+          id: "KH001",
+          name: "Khách hàng A",
+        },
+
+        {
+          id: "KH002",
+          name: "Khách hàng B",
+        },
+
+        {
+          id: "KH003",
+          name: "Khách hàng C",
+        },
+
+        {
+          id: "KH004",
+          name: "Khách hàng D",
+        },
+      ];
+
+      /*
+        ==========================================
+        TẠO OPTION NHÂN VIÊN
+        ==========================================
+        */
+
+      function createEmployeeOptions() {
+        let html = `
+                <option value="">
+                    -- Chọn nhân viên --
+                </option>
+            `;
+
+        employees.forEach((employee) => {
+          html += `
+                    <option value="${employee.id}">
+                        ${employee.id} - ${employee.name}
+                    </option>
+                `;
+        });
+
+        return html;
+      }
+
+      /*
+        ==========================================
+        TẠO OPTION KHÁCH HÀNG
+        ==========================================
+        */
+
+      function createCustomerOptions() {
+        let html = `
+                <option value="">
+                    -- Chọn khách hàng --
+                </option>
+            `;
+
+        customers.forEach((customer) => {
+          html += `
+                    <option value="${customer.id}">
+                        ${customer.name}
+                    </option>
+                `;
+        });
+
+        return html;
+      }
+
+      /*
+        ==========================================
+        THÊM DÒNG NHÂN VIÊN
+        ==========================================
+        */
+
+      function addEmployee() {
+        const table = document.getElementById("employeeTable");
+
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+
+                <td>
+
+                    <select class="employee">
+
+                        ${createEmployeeOptions()}
+
+                    </select>
+
+                </td>
+
+
+                <td>
+
+                    <select class="customer">
+
+                        ${createCustomerOptions()}
+
+                    </select>
+
+                </td>
+
+
+                <td>
+
+                    <input
+                        type="text"
+                        class="formula"
+                        placeholder="Ví dụ: 10*2+5"
+                        oninput="calculate(this)"
+                    >
+
+                    <div class="result">
+
+                        Kết quả:
+                        <span>0</span>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <div class="unit-group">
+
+                        <label class="unit">
+
+                            <input
+                                type="checkbox"
+                                class="unit-checkbox"
+                                value="Tấn"
+                            >
+
+                            Tấn
+
+                        </label>
+
+
+                        <label class="unit">
+
+                            <input
+                                type="checkbox"
+                                class="unit-checkbox"
+                                value="CBM"
+                            >
+
+                            CBM
+
+                        </label>
+
+
+                        <label class="unit">
+
+                            <input
+                                type="checkbox"
+                                class="unit-checkbox"
+                                value="Móc treo"
+                            >
+
+                            Móc treo
+
+                        </label>
+
+                    </div>
+
+                </td>
+
+
+                <td>
+
+                    <button
+                        class="btn-delete"
+                        onclick="deleteRow(this)"
+                    >
+                        Xóa
+                    </button>
+
+                </td>
+
+            `;
+
+        table.appendChild(row);
+      }
+
+      /*
+        ==========================================
+        TÍNH SẢN LƯỢNG
+        ==========================================
+        */
+
+      function calculate(input) {
+        const resultElement = input.parentElement.querySelector(".result span");
+
+        const formula = input.value.trim();
+
+        if (formula === "") {
+          resultElement.textContent = "0";
+
+          return;
+        }
+
+        /*
+            Chỉ cho phép số và phép tính
+            */
+
+        if (!/^[0-9+\-*/().\s]+$/.test(formula)) {
+          resultElement.textContent = "Công thức không hợp lệ";
+
+          return;
+        }
+
+        try {
+          const result = Function(`"use strict"; return (${formula})`)();
+
+          if (Number.isFinite(result)) {
+            resultElement.textContent = result;
+          } else {
+            resultElement.textContent = "Công thức không hợp lệ";
+          }
+        } catch (error) {
+          resultElement.textContent = "Công thức không hợp lệ";
+        }
+      }
+
+      /*
+        ==========================================
+        XÓA DÒNG
+        ==========================================
+        */
+
+      function deleteRow(button) {
+        const table = document.getElementById("employeeTable");
+
+        const row = button.closest("tr");
+
+        if (table.rows.length <= 1) {
+          showMessage("Phải có ít nhất một nhân viên.", "error");
+
+          return;
+        }
+
+        row.remove();
+      }
+
+      /*
+        ==========================================
+        LƯU PHIẾU
+        ==========================================
+        */
+
+      function saveData() {
+        const rows = document.querySelectorAll("#employeeTable tr");
+
+        const data = [];
+
+        let hasError = false;
+
+        rows.forEach((row, index) => {
+          const employee = row.querySelector(".employee").value;
+
+          const customer = row.querySelector(".customer").value;
+
+          const formula = row.querySelector(".formula").value.trim();
+
+          const result = row.querySelector(".result span").textContent;
+
+          /*
+                Lấy đơn vị
+                */
+
+          const checkedUnits = row.querySelectorAll(".unit-checkbox:checked");
+
+          const units = [];
+
+          checkedUnits.forEach((checkbox) => {
+            units.push(checkbox.value);
+          });
+
+          /*
+                Kiểm tra nhân viên
+                */
+
+          if (employee === "") {
+            hasError = true;
+
+            return;
+          }
+
+          /*
+                Kiểm tra khách hàng
+                */
+
+          if (customer === "") {
+            hasError = true;
+
+            return;
+          }
+
+          /*
+                Kiểm tra sản lượng
+                */
+
+          if (formula === "" || result === "Công thức không hợp lệ") {
+            hasError = true;
+
+            return;
+          }
+
+          /*
+                Kiểm tra đơn vị
+                */
+
+          if (units.length === 0) {
+            hasError = true;
+
+            return;
+          }
+
+          data.push({
+            employee: employee,
+
+            customer: customer,
+
+            formula: formula,
+
+            quantity: Number(result),
+
+            units: units,
+          });
+        });
+
+        /*
+            Nếu có lỗi
+            */
+
+        if (hasError) {
+          showMessage("Vui lòng nhập đầy đủ thông tin trước khi lưu.", "error");
+
+          return;
+        }
+
+        /*
+            Tạo thời gian lưu
+            */
+
+        const savedAt = new Date().toLocaleString("vi-VN");
+
+        const invoice = {
+          savedAt: savedAt,
+
+          data: data,
+        };
+
+        /*
+            Lưu vào trình duyệt
+            */
+
+        localStorage.setItem("productionInvoice", JSON.stringify(invoice));
+
+        /*
+            Hiển thị thông báo
+            */
+
+        showMessage("✓ Phiếu đã được lưu thành công!", "success");
+
+        /*
+            Hiển thị dữ liệu đã lưu
+            */
+
+        showSavedData(invoice);
+      }
+
+      /*
+        ==========================================
+        HIỂN THỊ THÔNG BÁO
+        ==========================================
+        */
+
+      function showMessage(text, type) {
+        const message = document.getElementById("message");
+
+        message.textContent = text;
+
+        message.className = "message " + type;
+      }
+
+      /*
+        ==========================================
+        HIỂN THỊ DỮ LIỆU ĐÃ LƯU
+        ==========================================
+        */
+
+      function showSavedData(invoice) {
+        const savedInfo = document.getElementById("savedInfo");
+
+        const savedContent = document.getElementById("savedContent");
+
+        let html = `
+
+                <p>
+                    <strong>Thời gian lưu:</strong>
+                    ${invoice.savedAt}
+                </p>
+
+                <p>
+                    <strong>Số nhân viên:</strong>
+                    ${invoice.data.length}
+                </p>
+
+                <hr>
+
+            `;
+
+        invoice.data.forEach((item, index) => {
+          html += `
+
+                    <p>
+
+                        <strong>
+                            ${index + 1}.
+                            ${item.employee}
+                        </strong>
+
+                        -
+                        ${item.customer}
+
+                        -
+                        ${item.quantity}
+
+                        (${item.units.join(", ")})
+
+                    </p>
+
+                `;
+        });
+
+        savedContent.innerHTML = html;
+
+        savedInfo.style.display = "block";
+      }
+
+      /*
+        ==========================================
+        KHÔI PHỤC DỮ LIỆU KHI MỞ TRANG
+        ==========================================
+        */
+
+      function loadSavedData() {
+        const saved = localStorage.getItem("productionInvoice");
+
+        if (!saved) {
+          /*
+                Nếu chưa có dữ liệu
+                tạo một dòng mặc định
+                */
+
+          addEmployee();
+
+          return;
+        }
+
+        try {
+          const invoice = JSON.parse(saved);
+
+          /*
+                Hiển thị dữ liệu đã lưu
+                */
+
+          showSavedData(invoice);
+
+          /*
+                Tạo lại các dòng
+                */
+
+          invoice.data.forEach((item) => {
+            addEmployee();
+
+            const rows = document.querySelectorAll("#employeeTable tr");
+
+            const row = rows[rows.length - 1];
+
+            row.querySelector(".employee").value = item.employee;
+
+            row.querySelector(".customer").value = item.customer;
+
+            row.querySelector(".formula").value = item.formula;
+
+            /*
+                    Tính lại
+                    */
+
+            calculate(row.querySelector(".formula"));
+
+            /*
+                    Khôi phục đơn vị
+                    */
+
+            const checkboxes = row.querySelectorAll(".unit-checkbox");
+
+            checkboxes.forEach((checkbox) => {
+              if (item.units.includes(checkbox.value)) {
+                checkbox.checked = true;
+              }
+            });
+          });
+        } catch (error) {
+          console.error("Không thể đọc dữ liệu đã lưu", error);
+
+          addEmployee();
+        }
+      }
+
+      /*
+        ==========================================
+        KHỞI ĐỘNG
+        ==========================================
+        */
+
+      loadSavedData();
+    </script>
   </body>
 </html>
+```
