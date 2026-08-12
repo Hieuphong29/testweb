@@ -1,17 +1,346 @@
-<div class="login-container">
-  <h1>T&B Logistics</h1>
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
 
-  <h2>Đăng nhập</h2>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <form>
-    <label> Tên đăng nhập </label>
+    <title>Log In - T&B Logistics</title>
 
-    <input type="text" placeholder="Nhập tên đăng nhập" />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
 
-    <label> Mật khẩu </label>
+      body {
+        font-family: Arial, sans-serif;
 
-    <input type="password" placeholder="Nhập mật khẩu" />
+        min-height: 100vh;
 
-    <button type="submit">Log In</button>
-  </form>
-</div>
+        background: #f3f7f3;
+
+        display: flex;
+
+        justify-content: center;
+
+        align-items: center;
+      }
+
+      /* =========================
+           LOGIN BOX
+        ========================= */
+
+      .login-container {
+        width: 400px;
+
+        padding: 40px;
+
+        background: white;
+
+        border-radius: 15px;
+
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+      }
+
+      /* LOGO */
+
+      .logo {
+        text-align: center;
+
+        font-size: 30px;
+
+        font-weight: bold;
+
+        color: #f28c28;
+
+        margin-bottom: 10px;
+      }
+
+      /* TITLE */
+
+      .login-title {
+        text-align: center;
+
+        color: #245c3a;
+
+        font-size: 24px;
+
+        margin-bottom: 30px;
+      }
+
+      /* LABEL */
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+
+        margin-bottom: 8px;
+
+        color: #333;
+
+        font-weight: 600;
+      }
+
+      /* INPUT */
+
+      .form-group input {
+        width: 100%;
+
+        padding: 12px 14px;
+
+        border: 1px solid #cbd5e1;
+
+        border-radius: 8px;
+
+        font-size: 15px;
+
+        outline: none;
+
+        transition: 0.3s;
+      }
+
+      .form-group input:focus {
+        border-color: #4caf50;
+
+        box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
+      }
+
+      /* REMEMBER + FORGOT */
+
+      .login-options {
+        display: flex;
+
+        justify-content: space-between;
+
+        align-items: center;
+
+        margin-bottom: 25px;
+
+        font-size: 14px;
+      }
+
+      .remember {
+        display: flex;
+
+        align-items: center;
+
+        gap: 6px;
+      }
+
+      .remember input {
+        width: auto;
+      }
+
+      .forgot-password {
+        color: #4caf50;
+
+        text-decoration: none;
+      }
+
+      .forgot-password:hover {
+        text-decoration: underline;
+      }
+
+      /* LOGIN BUTTON */
+
+      .login-button {
+        width: 100%;
+
+        padding: 13px;
+
+        border: none;
+
+        border-radius: 8px;
+
+        background: #f28c28;
+
+        color: white;
+
+        font-size: 16px;
+
+        font-weight: bold;
+
+        cursor: pointer;
+
+        transition: 0.3s;
+      }
+
+      .login-button:hover {
+        background: #ff9f43;
+
+        box-shadow: 0 0 10px rgba(242, 140, 40, 0.4);
+
+        transform: translateY(-2px);
+      }
+
+      /* BACK HOME */
+
+      .back-home {
+        display: block;
+
+        text-align: center;
+
+        margin-top: 25px;
+
+        color: #245c3a;
+
+        text-decoration: none;
+
+        font-size: 14px;
+      }
+
+      .back-home:hover {
+        text-decoration: underline;
+      }
+
+      /* ERROR */
+
+      .error-message {
+        display: none;
+
+        margin-bottom: 20px;
+
+        padding: 10px;
+
+        border-radius: 6px;
+
+        background: #fee2e2;
+
+        color: #991b1b;
+
+        text-align: center;
+
+        font-size: 14px;
+      }
+
+      /* RESPONSIVE */
+
+      @media (max-width: 500px) {
+        .login-container {
+          width: 90%;
+
+          padding: 30px 25px;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- =========================
+         LOGIN CONTAINER
+    ========================= -->
+
+    <div class="login-container">
+      <!-- LOGO -->
+
+      <div class="logo">T&B Logistics</div>
+
+      <!-- TITLE -->
+
+      <h1 class="login-title">Đăng nhập</h1>
+
+      <!-- FORM -->
+
+      <form id="loginForm">
+        <!-- USERNAME -->
+
+        <div class="form-group">
+          <label for="username"> Tên đăng nhập </label>
+
+          <input
+            type="text"
+            id="username"
+            name="username"
+            placeholder="Nhập tên đăng nhập"
+            required
+          />
+        </div>
+
+        <!-- PASSWORD -->
+
+        <div class="form-group">
+          <label for="password"> Mật khẩu </label>
+
+          <input
+            type="password"
+            id="password"
+            name="password"
+            placeholder="Nhập mật khẩu"
+            required
+          />
+        </div>
+
+        <!-- ERROR -->
+
+        <div id="errorMessage" class="error-message">
+          Tên đăng nhập hoặc mật khẩu không đúng.
+        </div>
+
+        <!-- OPTIONS -->
+
+        <div class="login-options">
+          <label class="remember">
+            <input type="checkbox" id="remember" />
+
+            Ghi nhớ đăng nhập
+          </label>
+
+          <a href="#" class="forgot-password"> Quên mật khẩu? </a>
+        </div>
+
+        <!-- LOGIN BUTTON -->
+
+        <button type="submit" class="login-button">Log In</button>
+      </form>
+
+      <!-- BACK HOME -->
+
+      <a href="index.html" class="back-home"> ← Quay lại trang chủ </a>
+    </div>
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================= -->
+
+    <script>
+      const loginForm = document.getElementById("loginForm");
+
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const username = document.getElementById("username").value.trim();
+
+        const password = document.getElementById("password").value;
+
+        const errorMessage = document.getElementById("errorMessage");
+
+        /*
+         * Tạm thời chưa kiểm tra
+         * tài khoản trên server.
+         */
+
+        if (username === "" || password === "") {
+          errorMessage.style.display = "block";
+
+          errorMessage.textContent = "Vui lòng nhập đầy đủ thông tin.";
+
+          return;
+        }
+
+        /*
+         * Tạm thời hiển thị thông báo.
+         *
+         * Sau này phần này sẽ kết nối
+         * với backend/database.
+         */
+
+        alert("Đã nhận thông tin đăng nhập.");
+      });
+    </script>
+  </body>
+</html>
