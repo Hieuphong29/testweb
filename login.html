@@ -7,51 +7,23 @@
 
     <title>Đăng nhập - T&B Logistics</title>
 
-    <!-- CSS của trang Login -->
     <link rel="stylesheet" href="css/login.css" />
   </head>
 
   <body>
-    <!-- =====================================
-         LOGIN CONTAINER
-    ====================================== -->
-
     <main class="login-page">
       <div class="login-container">
-        <!-- =================================
-                 LOGO
-            ================================== -->
-
         <a href="index.html" class="logo"> T&B Logistics </a>
-
-        <!-- =================================
-                 TIÊU ĐỀ
-            ================================== -->
 
         <h1 class="login-title">Đăng nhập</h1>
 
         <p class="login-subtitle">Đăng nhập để tiếp tục</p>
 
-        <!-- =================================
-                 THÔNG BÁO LỖI
-            ================================== -->
+        <!-- Thông báo lỗi -->
+        <div id="errorMessage" class="message error-message"></div>
 
-        <div
-          id="errorMessage"
-          class="message error-message"
-          role="alert"
-          aria-live="polite"
-        ></div>
-
-        <!-- =================================
-                 FORM LOGIN
-            ================================== -->
-
-        <form id="loginForm" class="login-form" autocomplete="on">
-          <!-- =============================
-                     USERNAME
-                ============================== -->
-
+        <!-- FORM LOGIN -->
+        <form id="loginForm">
           <div class="form-group">
             <label for="username"> Tên đăng nhập </label>
 
@@ -64,10 +36,6 @@
               required
             />
           </div>
-
-          <!-- =============================
-                     PASSWORD
-                ============================== -->
 
           <div class="form-group">
             <label for="password"> Mật khẩu </label>
@@ -82,24 +50,15 @@
                 required
               />
 
-              <button
-                type="button"
-                id="togglePassword"
-                class="toggle-password"
-                aria-label="Hiển thị mật khẩu"
-              >
+              <button type="button" id="togglePassword" class="toggle-password">
                 Hiện
               </button>
             </div>
           </div>
 
-          <!-- =================================
-                     OPTIONS
-                ================================== -->
-
           <div class="login-options">
             <label class="remember">
-              <input type="checkbox" id="remember" name="remember" />
+              <input type="checkbox" id="remember" />
 
               <span> Ghi nhớ đăng nhập </span>
             </label>
@@ -109,47 +68,31 @@
             </a>
           </div>
 
-          <!-- =================================
-                     LOGIN BUTTON
-                ================================== -->
-
           <button type="submit" id="loginButton" class="login-button">
             <span id="loginButtonText"> Log In </span>
           </button>
         </form>
 
-        <!-- =================================
-                 TÀI KHOẢN TEST
-            ================================== -->
-
+        <!-- TÀI KHOẢN TEST -->
         <div class="test-account">
           <div class="test-title">Tài khoản TEST</div>
 
           <div class="test-info">
-            <span> Username: </span>
-
-            <strong> test </strong>
+            <span>Username:</span>
+            <strong>test</strong>
           </div>
 
           <div class="test-info">
-            <span> Password: </span>
-
-            <strong> 123456 </strong>
+            <span>Password:</span>
+            <strong>123456</strong>
           </div>
         </div>
-
-        <!-- =================================
-                 QUAY LẠI TRANG CHỦ
-            ================================== -->
 
         <a href="index.html" class="back-home"> ← Quay lại trang chủ </a>
       </div>
     </main>
 
-    <!-- =====================================
-         JAVASCRIPT
-    ====================================== -->
-
+    <!-- QUAN TRỌNG -->
     <script src="js/login.js"></script>
   </body>
 </html>
