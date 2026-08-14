@@ -9,7 +9,7 @@ function loadProduction() {
   app.innerHTML = `
     <style>
       .production-page {
-        max-width: 900px;
+        max-width: 1100px; /* Mở rộng chiều rộng để đủ chỗ cho 4 ô trên 1 hàng */
         margin: 20px auto;
         padding: 0 15px;
       }
@@ -22,16 +22,10 @@ function loadProduction() {
         border: 1px solid #e2e8f0;
       }
 
-      /* TIÊU ĐỀ VÀ KHÁCH HÀNG NẰM CÙNG HÀNG */
       .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: 20px;
         margin-bottom: 24px;
         border-bottom: 2px solid #f1f5f9;
-        padding-bottom: 16px;
-        flex-wrap: wrap; /* Tự động xuống hàng mượt mà khi xem trên điện thoại */
+        padding-bottom: 12px;
       }
 
       .page-header h1 {
@@ -39,22 +33,6 @@ function loadProduction() {
         color: #1e293b;
         font-weight: 700;
         margin: 0;
-        white-space: nowrap;
-      }
-
-      /* Khối chọn khách hàng ở Header */
-      .header-customer {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 280px;
-      }
-
-      .header-customer label {
-        font-size: 14px;
-        font-weight: 600;
-        color: #475569;
-        white-space: nowrap;
       }
 
       .form-group {
@@ -85,7 +63,7 @@ function loadProduction() {
         box-shadow: 0 0 0 3px rgba(255, 111, 0, 0.15);
       }
 
-      /* Danh sách các dòng Nhân viên */
+      /* Danh sách các dòng Sản lượng */
       .employee-list {
         display: flex;
         flex-direction: column;
@@ -93,14 +71,14 @@ function loadProduction() {
         margin-bottom: 24px;
       }
 
-      /* Mỗi dòng nhân viên */
+      /* MỖI DÒNG BAO GỒM CẢ KHÁCH HÀNG + NHÂN VIÊN + SẢN LƯỢNG + ĐƠN VỊ + XÓA */
       .employee-row {
         display: grid;
-        grid-template-columns: 2fr 2fr 1.5fr 40px;
+        grid-template-columns: 2fr 2fr 1.5fr 1.2fr 40px; /* Chia 5 cột trên cùng 1 hàng */
         gap: 12px;
         align-items: end;
         background: #ffffff;
-        padding: 12px;
+        padding: 14px;
         border-radius: 8px;
         border: 1px solid #e2e8f0;
         box-shadow: 0 2px 4px rgba(0,0,0,0.02);
@@ -171,15 +149,8 @@ function loadProduction() {
         background-color: #e66400;
       }
 
-      /* Responsive cho màn hình nhỏ */
-      @media (max-width: 640px) {
-        .page-header {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-        .header-customer {
-          width: 100%;
-        }
+      /* Responsive cho điện thoại */
+      @media (max-width: 768px) {
         .employee-row {
           grid-template-columns: 1fr;
         }
@@ -188,34 +159,23 @@ function loadProduction() {
 
     <section class="production-page">
       <div class="card">
-        <!-- HEADER CÙNG HÀNG: TIÊU ĐỀ BÊN TRÁI, KHÁCH HÀNG BÊN PHẢI -->
         <div class="page-header">
           <h1>📋 Phiếu Ghi Nhận Sản Lượng</h1>
-
-          <div class="header-customer">
-            <label for="customer">Khách hàng:</label>
-            <select id="customer" class="form-control">
-              <option value="">-- Chọn khách hàng --</option>
-              <option value="KH001">KH001 - Công ty Á Châu</option>
-              <option value="KH002">KH002 - Tập đoàn Hòa Phát</option>
-              <option value="KH003">KH003 - Logistics Đại Nam</option>
-            </select>
-          </div>
         </div>
 
-        <!-- DANH SÁCH DÒNG NHÂN VIÊN & SẢN LƯỢNG -->
+        <!-- DANH SÁCH CÁC DÒNG SẢN LƯỢNG -->
         <div id="employeeList" class="employee-list">
-          <!-- Javascript sẽ thêm các dòng nhân viên vào đây -->
+          <!-- Javascript sẽ thêm các dòng vào đây -->
         </div>
 
         <!-- NÚT THAO TÁC -->
         <div class="action-buttons">
           <button type="button" class="btn btn-secondary" id="btnAddEmployee">
-            ➕ Thêm nhân viên
+            ➕ Thêm dòng mới
           </button>
 
           <button type="button" class="btn btn-primary" id="btnSaveProduction">
-            💾 Lưu toàn bộ phiếu
+            💾 Lưu phiếu
           </button>
         </div>
       </div>
@@ -239,6 +199,7 @@ function initProductionApp() {
     rowDiv.className = "employee-row";
 
     rowDiv.innerHTML = `
+    <!-- 1. CỘT NHÂN VIÊN -->
       <div class="form-group">
         <label>Nhân viên</label>
         <select class="form-control emp-select">
@@ -247,13 +208,28 @@ function initProductionApp() {
           <option value="NV002">NV002 - Trần Thị B</option>
           <option value="NV003">NV003 - Lê Văn C</option>
         </select>
+      </div> 
+      
+    <!-- 2. CỘT KHÁCH HÀNG -->
+      <div class="form-group">
+        <label>Khách hàng</label>
+        <select class="form-control emp-customer">
+          <option value="">-- Chọn KH --</option>
+          <option value="KH001">KH001 - Công ty Á Châu</option>
+          <option value="KH002">KH002 - Tập đoàn Hòa Phát</option>
+          <option value="KH003">KH003 - Logistics Đại Nam</option>
+        </select>
       </div>
 
+      
+
+      <!-- 3. CỘT SẢN LƯỢNG -->
       <div class="form-group">
         <label>Sản lượng</label>
         <input type="text" class="form-control emp-production" placeholder="VD: 10 + 5 * 2" />
       </div>
 
+      <!-- 4. CỘT ĐƠN VỊ -->
       <div class="form-group">
         <label>Đơn vị</label>
         <select class="form-control emp-unit">
@@ -263,6 +239,7 @@ function initProductionApp() {
         </select>
       </div>
 
+      <!-- 5. NÚT XÓA DÒNG -->
       <button type="button" class="btn-delete" title="Xóa dòng này">🗑️</button>
     `;
 
@@ -271,51 +248,54 @@ function initProductionApp() {
       if (employeeList.children.length > 1) {
         rowDiv.remove();
       } else {
-        alert("Phiếu ghi nhận phải có ít nhất 1 nhân viên!");
+        alert("Phiếu ghi nhận phải có ít nhất 1 dòng!");
       }
     });
 
     return rowDiv;
   }
 
-  // Mặc định tạo sẵn 1 dòng khi mở trang
+  // Mặc định tạo 1 dòng đầu tiên
   employeeList.appendChild(createEmployeeRow());
 
-  // Bắt sự kiện bấm nút "+ Thêm nhân viên"
+  // Bấm nút "+ Thêm dòng mới"
   btnAdd.addEventListener("click", () => {
     employeeList.appendChild(createEmployeeRow());
   });
 
-  // Bắt sự kiện bấm nút "Lưu"
+  // Bấm nút "Lưu phiếu"
   btnSave.addEventListener("click", () => {
-    const customer = document.getElementById("customer").value;
-
-    if (!customer) {
-      alert("Vui lòng chọn Khách hàng!");
-      return;
-    }
-
     const rows = employeeList.querySelectorAll(".employee-row");
     const resultData = [];
+    let isValid = true;
 
     rows.forEach((row, index) => {
+      const customer = row.querySelector(".emp-customer").value;
       const empCode = row.querySelector(".emp-select").value;
       const production = row.querySelector(".emp-production").value;
       const unit = row.querySelector(".emp-unit").value;
 
+      if (!customer || !empCode || !production) {
+        isValid = false;
+      }
+
       resultData.push({
         dong: index + 1,
+        khachHang: customer,
         maNhanVien: empCode,
         sanLuong: production,
         donVi: unit,
       });
     });
 
-    console.log("Dữ liệu thu thập được:", {
-      khachHang: customer,
-      danhSachNhanVien: resultData,
-    });
+    if (!isValid) {
+      alert(
+        "Vui lòng điền đầy đủ Khách hàng, Nhân viên và Sản lượng cho tất cả các dòng!",
+      );
+      return;
+    }
 
-    alert("Đã ghi nhận thành công cho " + resultData.length + " nhân viên!");
+    console.log("Dữ liệu thu thập được:", resultData);
+    alert("Đã lưu thành công " + resultData.length + " dòng sản lượng!");
   });
 }
