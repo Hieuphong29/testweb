@@ -249,7 +249,10 @@ function initLogin() {
   // ======================================
   // QUAY VỀ HOME
   // ======================================
+  // Trong file login.js
   backHome.addEventListener("click", function () {
+    // Thay thế nút quay về bằng cách đổi link luôn
+    history.pushState({ page: "home" }, "", "/home");
     if (typeof loadHome === "function") {
       loadHome();
     }
