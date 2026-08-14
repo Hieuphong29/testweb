@@ -1,6 +1,6 @@
 // ==========================================
 // SANLUONG.JS
-// Trang Phiếu ghi nhận sản lượng (Đã có tính năng thêm dòng)
+// Trang Phiếu ghi nhận sản lượng
 // ==========================================
 
 function loadProduction() {
@@ -22,25 +22,39 @@ function loadProduction() {
         border: 1px solid #e2e8f0;
       }
 
+      /* TIÊU ĐỀ VÀ KHÁCH HÀNG NẰM CÙNG HÀNG */
       .page-header {
-        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 20px;
+        margin-bottom: 24px;
         border-bottom: 2px solid #f1f5f9;
-        padding-bottom: 12px;
+        padding-bottom: 16px;
+        flex-wrap: wrap; /* Tự động xuống hàng mượt mà khi xem trên điện thoại */
       }
 
       .page-header h1 {
-        font-size: 22px;
+        font-size: 20px;
         color: #1e293b;
         font-weight: 700;
+        margin: 0;
+        white-space: nowrap;
       }
 
-      /* Khối thông tin dùng chung cho toàn phiếu (Ví dụ Khách hàng) */
-      .general-info {
-        margin-bottom: 24px;
-        background: #f8fafc;
-        padding: 16px;
-        border-radius: 8px;
-        border: 1px dashed #cbd5e1;
+      /* Khối chọn khách hàng ở Header */
+      .header-customer {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        min-width: 280px;
+      }
+
+      .header-customer label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #475569;
+        white-space: nowrap;
       }
 
       .form-group {
@@ -159,25 +173,27 @@ function loadProduction() {
 
       /* Responsive cho màn hình nhỏ */
       @media (max-width: 640px) {
+        .page-header {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+        .header-customer {
+          width: 100%;
+        }
         .employee-row {
           grid-template-columns: 1fr;
-        }
-        .btn-delete {
-          height: 32px;
         }
       }
     </style>
 
     <section class="production-page">
       <div class="card">
+        <!-- HEADER CÙNG HÀNG: TIÊU ĐỀ BÊN TRÁI, KHÁCH HÀNG BÊN PHẢI -->
         <div class="page-header">
           <h1>📋 Phiếu Ghi Nhận Sản Lượng</h1>
-        </div>
 
-        <!-- 1. THÔNG TIN CHUNG -->
-        <div class="general-info">
-          <div class="form-group">
-            <label for="customer">Khách hàng</label>
+          <div class="header-customer">
+            <label for="customer">Khách hàng:</label>
             <select id="customer" class="form-control">
               <option value="">-- Chọn khách hàng --</option>
               <option value="KH001">KH001 - Công ty Á Châu</option>
@@ -187,12 +203,12 @@ function loadProduction() {
           </div>
         </div>
 
-        <!-- 2. DANH SÁCH DÒNG NHÂN VIÊN & SẢN LƯỢNG -->
+        <!-- DANH SÁCH DÒNG NHÂN VIÊN & SẢN LƯỢNG -->
         <div id="employeeList" class="employee-list">
-          <!-- Các dòng sẽ tự động được Javascript thêm vào đây -->
+          <!-- Javascript sẽ thêm các dòng nhân viên vào đây -->
         </div>
 
-        <!-- 3. NÚT THAO TÁC -->
+        <!-- NÚT THAO TÁC -->
         <div class="action-buttons">
           <button type="button" class="btn btn-secondary" id="btnAddEmployee">
             ➕ Thêm nhân viên
@@ -206,7 +222,6 @@ function loadProduction() {
     </section>
   `;
 
-  // Khởi tạo các sự kiện và tự động tạo 1 dòng mặc định ban đầu
   initProductionApp();
 }
 
@@ -219,13 +234,11 @@ function initProductionApp() {
   const btnAdd = document.getElementById("btnAddEmployee");
   const btnSave = document.getElementById("btnSaveProduction");
 
-  // Hàm tạo HTML cho 1 dòng nhập dữ liệu Nhân viên
   function createEmployeeRow() {
     const rowDiv = document.createElement("div");
     rowDiv.className = "employee-row";
 
     rowDiv.innerHTML = `
-      <!-- Chọn nhân viên -->
       <div class="form-group">
         <label>Nhân viên</label>
         <select class="form-control emp-select">
@@ -236,13 +249,11 @@ function initProductionApp() {
         </select>
       </div>
 
-      <!-- Nhập sản lượng -->
       <div class="form-group">
         <label>Sản lượng</label>
         <input type="text" class="form-control emp-production" placeholder="VD: 10 + 5 * 2" />
       </div>
 
-      <!-- Chọn đơn vị -->
       <div class="form-group">
         <label>Đơn vị</label>
         <select class="form-control emp-unit">
@@ -252,14 +263,11 @@ function initProductionApp() {
         </select>
       </div>
 
-      <!-- Nút xóa dòng -->
       <button type="button" class="btn-delete" title="Xóa dòng này">🗑️</button>
     `;
 
-    // Sự kiện xóa dòng khi bấm nút 🗑️
     const btnDelete = rowDiv.querySelector(".btn-delete");
     btnDelete.addEventListener("click", () => {
-      // Đảm bảo phải còn ít nhất 1 dòng
       if (employeeList.children.length > 1) {
         rowDiv.remove();
       } else {
@@ -270,16 +278,15 @@ function initProductionApp() {
     return rowDiv;
   }
 
-  // 1. Mặc định tạo sẵn 1 dòng khi mở trang
+  // Mặc định tạo sẵn 1 dòng khi mở trang
   employeeList.appendChild(createEmployeeRow());
 
-  // 2. Bắt sự kiện khi người dùng bấm nút "+ Thêm nhân viên"
+  // Bắt sự kiện bấm nút "+ Thêm nhân viên"
   btnAdd.addEventListener("click", () => {
-    const newRow = createEmployeeRow();
-    employeeList.appendChild(newRow);
+    employeeList.appendChild(createEmployeeRow());
   });
 
-  // 3. Bắt sự kiện Bấm nút "Lưu" (Gom toàn bộ dữ liệu lại)
+  // Bắt sự kiện bấm nút "Lưu"
   btnSave.addEventListener("click", () => {
     const customer = document.getElementById("customer").value;
 
@@ -288,7 +295,6 @@ function initProductionApp() {
       return;
     }
 
-    // Thu thập dữ liệu từ tất cả các dòng nhân viên
     const rows = employeeList.querySelectorAll(".employee-row");
     const resultData = [];
 
