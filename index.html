@@ -2,48 +2,123 @@
 <html lang="vi">
   <head>
     <meta charset="UTF-8" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>T&B Logistics</title>
 
-    <link rel="stylesheet" href="css/style.css" />
+    <!-- CSS CÁC TRANG -->
+    <link rel="stylesheet" href="css/login.css" />
+    <link rel="stylesheet" href="css/sanluong.css" />
+
+    <!-- STYLES CHO HEADER & LAYOUT CHUNG -->
+    <style>
+      /* Reset cơ bản */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, Helvetica, sans-serif;
+      }
+
+      body {
+        background-color: #f4f6f8;
+      }
+
+      /* 1. HEADER: Nền xanh lá nhạt */
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #e8f5e9; /* Xanh lá nhạt */
+        padding: 15px 40px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      }
+
+      /* 2. LOGO: Màu cam */
+      .logo {
+        font-size: 24px;
+        font-weight: bold;
+        color: #ff6f00; /* Màu cam nổi bật */
+        letter-spacing: 0.5px;
+        cursor: pointer;
+      }
+
+      /* 3. NAVIGATION & NÚT BẤM */
+      .navigation {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .nav-button,
+      .login-button {
+        background-color: #ffffff;
+        color: #2e7d32; /* Chữ xanh lá đậm cho hài hòa */
+        border: 1px solid #c8e6c9;
+        padding: 9px 18px;
+        font-size: 14px;
+        font-weight: 600;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.3s ease; /* Hiệu ứng mượt mà */
+      }
+
+      /* Kiểu dáng riêng cho nút Login */
+      .login-button {
+        background-color: #ff6f00; /* Nút Login màu cam trùng màu Logo */
+        color: #ffffff;
+        border: none;
+      }
+
+      /* 4. HIỆU ỨNG TRỎ CHUỘT (HOVER): Bừng sáng nút */
+      .nav-button:hover {
+        background-color: #4caf50; /* Sáng thành màu xanh lá tươi */
+        color: #ffffff;
+        border-color: #4caf50;
+        box-shadow: 0 0 12px rgba(76, 175, 80, 0.5); /* Hiệu ứng phát sáng */
+        transform: translateY(-2px); /* Nhích nhẹ lên trên */
+      }
+
+      .login-button:hover {
+        background-color: #ff8f00; /* Sáng hơn khi rê chuột */
+        box-shadow: 0 0 12px rgba(255, 111, 0, 0.6); /* Hiệu ứng phát sáng màu cam */
+        transform: translateY(-2px);
+      }
+
+      /* Khu vực hiển thị nội dung động */
+      #app {
+        padding: 20px;
+      }
+    </style>
   </head>
 
   <body>
     <!-- HEADER -->
-
     <header class="header">
+      <!-- Logo bên trái màu cam -->
       <div class="logo">T&B Logistics</div>
 
+      <!-- Điều hướng bên phải -->
       <nav class="navigation">
-        <button data-page="about" class="nav-button">About Us</button>
-
-        <button data-page="home" class="nav-button">Home Page</button>
-
+        <button data-page="home" class="nav-button">Home page</button>
+        <button data-page="about" class="nav-button">About us</button>
         <button data-page="career" class="nav-button">Career</button>
-
         <button data-page="contact" class="nav-button">Contact</button>
-
-        <button data-page="login" class="login-button">Log In</button>
+        <button data-page="login" class="login-button">Login</button>
       </nav>
     </header>
 
-    <!-- NỘI DUNG TRANG -->
+    <!-- NỘI DUNG TRANG (JavaScript sẽ nạp giao diện vào đây) -->
+    <main id="app"></main>
 
-    <main id="app">
-      <!-- JavaScript sẽ đưa nội dung vào đây -->
-    </main>
+    <!-- KẾT NỐI CÁC FILE JAVASCRIPT -->
+    <script src="js/home.js"></script>
+    <script src="js/about.js"></script>
+    <script src="js/career.js"></script>
+    <script src="js/contact.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/sanluong.js"></script>
 
-    <!-- JAVASCRIPT -->
-
-    <!-- JAVASCRIPT -->
-
-    <script src="js/pages/home.js"></script>
-    <script src="js/pages/about.js"></script>
-    <script src="js/pages/career.js"></script>
-    <script src="js/pages/contact.js"></script>
-    <script src="js/pages/login.js"></script>
+    <!-- File điều hướng trung tâm (Nằm ở cuối cùng) -->
     <script src="js/app.js"></script>
   </body>
 </html>
